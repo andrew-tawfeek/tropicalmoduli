@@ -5,3 +5,5 @@ This research project is being run by the participants of the University of Wash
 
 ---
 
+## Various helpful links:
+- [Google Drive](https://drive.google.com/drive/folders/1hSjcd7dVly7yk6G-xA1ltIPTIa-PhVPd?usp=sharing) (UW-email required)
