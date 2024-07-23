@@ -6,8 +6,7 @@ class MyVertex(tuple):
         return str(self.vertex[0])
 
 #this and above are literally to deal with vertices having same labels
-#vertices are actually labeled by tuples (weight, index of vertex) then the latter is forgotten when displaying
-
+#vertices are actually labeled by tuples (weight, index of vertex) then the latter is forgotten when displayi
 def plot_graph(G):
     E = [(MyVertex(a), MyVertex(b)) for (a, b) in G.edges(labels=False)]
     return Graph(E, multiedges = True, loops = True).plot()
@@ -68,9 +67,11 @@ def stability_check(G):
 #####################################################################################
 
 def loop(G,v): #turn a vertex of weight g into weight g-1 with a self-loop
-
-
-
+    weight = v[0]
+    index = v[1]
+    if weight >= 1:
+        G.relabel({v: (weight-1,index)})
+    
 
 
 
