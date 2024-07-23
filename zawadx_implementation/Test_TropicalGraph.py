@@ -33,6 +33,12 @@ class TestIsomorphism:
         g2 = TropicalGraph({'0': ['1', '1'], '1': ['0', '0', '2'], '2': ['1', '2']}, {'0': 0, '1': 1, '2': 2}, {'0': 1, '1': 2})
         assert not g1.check_isom(g2)
 
+    def test_bad_isom(self):
+        # underlying graphs have multiple isomorphisms, only one is a tropical graph isomorphism
+        g1 = TropicalGraph({'0': ['1'], '1': ['0', '2'], '2': ['1']}, {'0': 1}, {})
+        g2 = TropicalGraph({'0': ['1'], '1': ['0', '2'], '2': ['1']}, {'2': 1}, {})
+        assert g1.check_isom(g2)
+
 class TestStability:
     # one vtx tests
     def test_loop_degree(self):
