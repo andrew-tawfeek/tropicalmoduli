@@ -41,7 +41,7 @@ class TropicalGraph:
     # def get_markings(self):
     #     return self.markings.copy()
 
-    def check_isom(self, other: Self) -> bool:
+    def is_isom_to(self, other: Self) -> bool:
         """
         Check if self is isomorphic to other as vertex-weighted marked graphs.
         """
@@ -51,7 +51,7 @@ class TropicalGraph:
                 return True
         return False
 
-    def check_stability_at(self, vtx: str) -> bool:
+    def is_stable_at(self, vtx: str) -> bool:
         """
         Check if self is stable at vtx
         """
@@ -61,7 +61,7 @@ class TropicalGraph:
         """
         Checks stability for the whole graph.
         """
-        return all(self.check_stability_at(v) for v in self.nodes)
+        return all(self.is_stable_at(v) for v in self.nodes)
 
     def draw(self):
         # TODO: use Graphviz to implement visualization
