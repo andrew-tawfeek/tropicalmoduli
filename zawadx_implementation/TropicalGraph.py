@@ -21,6 +21,7 @@ class TropicalGraph:
         Vertices not in weights assumed to have weight 0.
         Vertices not in markings assumed to have no markings.
         """
+        # graph_copy = {v: list(graph[v][:]) for v in graph}
         self.graph = nx.MultiGraph(graph, multigraph_input=False)
         self.weights = {vtx: weights.get(vtx, 0) for vtx in self.graph.nodes}
         self.markings = {vtx: markings.get(vtx, 0) for vtx in self.graph.nodes}
@@ -32,14 +33,8 @@ class TropicalGraph:
         """
         return list(self.graph.nodes)
     
-    # def get_graph(self) -> nx.MultiGraph:
-    #     return self.graph.copy()
-    
-    # def get_weights(self):
-    #     return self.weights.copy()
-    
-    # def get_markings(self):
-    #     return self.markings.copy()
+    def get_data(self) -> tuple[nx.MultiGraph, dict[str, int], dict[str, int]]:
+        return self.graph.copy(), self.weights.copy(), self.markings.copy()
 
     def is_isom_to(self, other: Self) -> bool:
         """
