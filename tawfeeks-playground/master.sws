@@ -1,6 +1,3 @@
-#defining the graphs
-#use https://stackoverflow.com/questions/62797267/plotting-non-injective-labels-on-vertices-in-a-graph-in-sagemath
-
 class MyVertex(tuple):
     def __init__(self, v):
         self.vertex = v
@@ -27,9 +24,9 @@ def base_graph(g,n):
 def m2(): #outputs the set of graphs for M2,0 -- labels are (weight, index)
     L = [Graph({(2,0): []}),
     Graph({(1,0): [(1,0)]}),
-    Graph({(1,0): [(1,1)]}), #these formats are good for illustrating how to implement pinch (loop)/splits
+    Graph({(1,0): [(1,1)]}),
     Graph({(0,0): [(0,0),(1,1)], (1,1): []}),
-    Graph({(0,0): [(0,0),(0,0)]}), #multiedges (even LOOPS) works!
+    Graph({(0,0): [(0,0),(0,0)]}),
     Graph({(0,0): [(0,0),(0,1)], (0,1): [(0,1)]}),
     Graph({(0,0): [(0,1),(0,1),(0,1)], (0,1): []})]
     return L
@@ -71,7 +68,7 @@ def stability_check(G):
 #####################################################################################
 
 def loop(G,v): #turn a vertex of weight g into weight g-1 with a self-loop
-    
+
 
 
 
