@@ -154,3 +154,32 @@ class TestMutations(unittest.TestCase):
         new_g = all_splits(g, '0')
         assert g.is_isom_to(g_copy)
 
+
+class TestCombinatorialPoset:
+    def test_1_1(self):
+        expected = nx.DiGraph([((1, 1), (0, 1))])
+        actual, _ = combinatorial_type_poset(1, 1)
+        assert nx.is_isomorphic(expected, actual)
+
+    def test_1_2(self):
+        expected = nx.DiGraph([
+            ((1, 1), (0, 1)), ((1, 2), (0, 1)), ((2, 1), (1, 1)), ((2, 2), (1, 1)), ((2, 2), (1, 2))
+            ])
+        actual, _ = combinatorial_type_poset(1, 2)
+        assert nx.is_isomorphic(expected, actual)
+
+    def test_2_0(self):
+        expected = nx.DiGraph([
+            ((1, 1), (0, 1)), ((1, 2), (0, 1)), ((2, 1), (1, 1)), ((2, 2), (1, 1)), 
+            ((2, 2), (1, 2)), ((3, 1), (2, 1)), ((3, 2), (2, 1)), ((3, 2), (2, 2))
+            ])
+        actual, _ = combinatorial_type_poset(2, 0)
+        assert nx.is_isomorphic(expected, actual)
+
+    def test_num_levels(self):
+        for g in range(3):
+            for n in range(3):
+                if 2*g - 2 + n > 0:
+                    poset, graph_dict = combinatorial_type_poset(g, n)
+                    num_levels = max([lvl for (lvl, num) in graph_dict])
+                    assert num_levels == 3*g - 3 + n

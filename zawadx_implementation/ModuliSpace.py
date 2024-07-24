@@ -138,40 +138,55 @@ def all_splits(trop_graph: TropicalGraph, vtx: str) -> list[TropicalGraph]:
     
 # The big one
 
-def combinatorial_type_poset(g: int, n: int):
+def combinatorial_type_poset(g: int, n: int) -> tuple[nx.DiGraph, dict[tuple[int], TropicalGraph]]:
     """
     The big one. Should generate the poset of combinatorial types in M_{g, n}^{trop}.
+    Inputs:
+        g - genus
+        n - number of marked points
+    Outputs:
+        poset - nx.DiGraph, with vertices labeled (level, number). Edges represent poset structure
+        graph_dict - dict of (level, number) -> TropicalGraph. Maps vertex in poset to 
+                        corresponding tropical graph.
+
+    Requires base graph to be stable i.e. 2*g - 2 + n > 0
     """
-    # TODO: midnight ramble code, needs cleaning up
-    
     base_graph = TropicalGraph({'v': []}, {'v': g}, {'v': n})  # singleton with weight g, n markings
-    levels = [['level0_graph1']]
-    graph_dict = {'level0_graph1': base_graph}
-    poset = nx.DiGraph({'level0_graph1': []})
+    graph_dict = {(0, 1): base_graph}
+    poset = nx.DiGraph({(0, 1): []})
+    current_level_num = 0
 
     while True:
-        print(levels)
-        current_level = []
-        for old_name in levels[-1]:
-            print(f"Finding graphs above {old_name}")
+        current_level_num += 1
+        graphs_in_level_sofar = 0
+        last_level = [name for name in graph_dict if name[0] == current_level_num - 1]
+
+        for old_name in last_level:
             old_graph = graph_dict[old_name]
+
             for vtx in old_graph.nodes:
+                # get possible splits/lollipops of old_graph at vtx
                 new_graphs = all_splits(old_graph, vtx)
-                if old_graph.weights[vtx] > 0:  # accessing private variable, big sin!!
+                if old_graph.weights[vtx] > 0:  # sin of accessing "private" variable
                     new_graphs.append(lollipop(old_graph, vtx))
+                
                 for new_graph in new_graphs:
                     if new_graph.is_stable():
-                        if not trop_graph_in_list(new_graph, graph_dict.values()):  # searching through all values, could only do current level
-                            new_name = f"level{len(levels)}_graph{len(current_level)+1}"
-                            current_level.append(new_name)
+                        current_level = [name for name in graph_dict if name[0] == current_level_num]
+                        
+                        found_match = False  # checks if new_graph has been matched to sth in current_level
+                        for name in current_level:
+                            if new_graph.is_isom_to(graph_dict[name]):
+                                poset.add_edge(name, old_name)
+                                found_match = True
+                                break
+                        
+                        if not found_match:
+                            graphs_in_level_sofar += 1
+                            new_name = (current_level_num, graphs_in_level_sofar)
                             graph_dict[new_name] = new_graph
                             poset.add_edge(new_name, old_name)
-                        else:
-                            for name, graph in graph_dict.items():  # searching again
-                                if graph.is_isom_to(new_graph):
-                                    poset.add_edge(name, old_name)
-                                    break
-        levels.append(current_level)
-        if len(current_level) == 0:  # no new stable graphs added in current level
+        
+        if not (current_level_num, 1) in graph_dict:  # no new stable graphs added in current level
             return poset, graph_dict
 

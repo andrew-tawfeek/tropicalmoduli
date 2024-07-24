@@ -1,4 +1,5 @@
 import networkx as nx
+import numpy as np
 from typing import Self
 
 class TropicalGraph:
@@ -58,9 +59,40 @@ class TropicalGraph:
         """
         return all(self.is_stable_at(v) for v in self.nodes)
 
-    def draw(self):
-        # TODO: use Graphviz to implement visualization
-        raise NotImplementedError
+    def draw(self, ax=None):
+        # Parameters, can change to change look
+        node_size = 500
+        arc3_base = 0.15  # minimum amount of arcing for edges
+        marking_distance = 0.3 # determines how close marked points are to actual nodes
+        
+        draw_graph = self.graph.copy()
+        draw_labels = self.weights.copy()
+        pos = nx.shell_layout(draw_graph)
+
+        # Deduce amount of arcing needed for edges
+        max_multidegree = max([draw_graph.number_of_edges(u, v) for u in draw_graph.nodes for v in draw_graph.nodes])
+        connectionstyle = [f"arc3,rad={i*arc3_base}" for i in range(max_multidegree)]
+
+        def random_direction():
+            theta = 2 * np.pi * np.random.random()
+            return np.array([np.cos(theta), np.sin(theta)])
+
+        # Add marked points
+        marked_so_far = 0
+        for node in self.nodes:
+            for _ in range(self.markings[node]):
+                marked_so_far += 1
+                marked_pt = f"m{marked_so_far}"
+                draw_graph.add_edge(node, marked_pt)
+                draw_labels[marked_pt] = marked_pt
+                pos[marked_pt] = pos[node] + marking_distance * random_direction()
+                
+        colorlist = ['powderblue'] * self.graph.order() + ['salmon'] * marked_so_far
+
+        nx.draw_networkx_nodes(draw_graph, pos, node_size=node_size, node_color=colorlist, ax=ax)
+        nx.draw_networkx_labels(draw_graph, pos, labels=draw_labels, ax=ax)
+        nx.draw_networkx_edges(draw_graph, pos, connectionstyle=connectionstyle, ax=ax)
+
 
     
 
