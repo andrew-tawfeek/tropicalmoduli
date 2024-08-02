@@ -1,23 +1,9 @@
 # num vertices = 2g - 2 + n
 # num edges = 3g - 3 + n
 
-#final graph satisfies deg(v) = 3 for all v
-#BETTER: check deg(v) = 3 for some vertex then check is_regular
-
 
 # Computing maximals...
 # https://oeis.org/A005967/a005967.pdf
-
-
-def initial(g,n):
-    return Graph(2*g-2+n, multiedges = True, loops = True) #index at vertex 0
-
-def loop(G,v): #adds loop to graph G at vertex v (an index)
-    H = Graph(G, multiedges = True, loops = True) #stupid but safe
-    H.edge(v,v)
-    return H
-
-
 
 
 
@@ -35,24 +21,6 @@ def trivalent_trees(n): #connected trees on n-many vertices with deg at most 3
             final = final + [G]
     return final
 
-
-def loopy_leaves(G): #loops the leaves
-    H = Graph(G, multiedges = True, loops = True) #incase
-    for v in H.vertices():
-        if H.degree(v) == 1:
-            H.add_edge(v,v)
-    return H
-
-
-def dupe_scheme(G): #turns all even deg vertices to multiedges
-    H = Graph(G, multiedges = True, loops = True) #incase
-    even_verts = [v for v in G.vertices() if G.degree(v) == 2]
-    for v in even_verts:
-        even_verts.remove(v)
-        for w in even_verts:
-            H.add_edge(v,w)
-    return H
-
 def loopy_dupe(G): #just does both the things above, everything output will have deg 3
     H = Graph(G, multiedges = True, loops = True) #incase
     even_verts = [v for v in G.vertices() if G.degree(v) == 2]
@@ -66,7 +34,24 @@ def loopy_dupe(G): #just does both the things above, everything output will have
         H.add_edge(v,v)
     return H
 
-
-def looped_multi_trivalent_graphs(n):
+def looped_multi_trivalent_graphs(n): #IS MISSING GRAPHS WITH NO LOOPS
     L = trivalent_trees(n)
     return [loopy_dupe(G) for G in L]
+
+#compare trivalent_trees(6)[-4].show() with looped_multi_trivalent_graphs(6)[-4].show()
+
+
+####
+# COMPUTATIONALLY INTENSIVE PART BELOW 
+####
+
+def unlooped_multi_trivalent_graphs(g): #takes in genus (num vert = 2g - 2)
+    return [G for G in graphs(2*g-2, size = 3*g-3) if G.is_regular(3)] #THIS IS THE LONG-RUNNING PART OF CODE. Find all cubic/trivalent graphs on a number of vertices!
+
+# clean later, when i care
+# https://mathworld.wolfram.com/CubicGraph.html
+
+
+############
+
+def lmt_graphs_strat(n): #stratifies lmt 
