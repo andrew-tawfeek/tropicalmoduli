@@ -2,3 +2,4 @@
 zawadx_implementation/scratch.ipynb
 zawadx_implementation/*.txt
 zawadx_implementation/timing.py
+sagemath_implementation/sandpile.py

@@ -34,7 +34,7 @@
 > --- 
 > 
 > we came up with a SLIGHTLY better way
-> 
+>   
 > look at a graph and calculate its set of automorphisms
 > partition the set of vertices under it's orbit under the isomorphisms
 > 
