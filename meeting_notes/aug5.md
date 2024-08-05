@@ -16,20 +16,20 @@
 
 - Relevant scribble (clean up later):
 > say we generated the top layer
+>
+> for each graph, we need to look at every possible list of contractions that bring us down
 > 
-> for each graph, we need to look at every possible list of contractions > that bring us down
-> 
-> the problem is, downstairs, we then have to delete duplicates by checking > isomorphisms
+> the problem is, downstairs, we then have to delete duplicates by checking isomorphisms
 > 
 > 
 > ----
 > 
-> going back to the first step, how do we produce all possible contractions > such that, there, there are no duplicates?
+> going back to the first step, how do we produce all possible contractions such that, there, there are no duplicates?
 > 
 > 
 > --
 > 
-> for each pair of vertices (including same vertex and itself), contract > edge, add it to list of outputs
+> for each pair of vertices (including same vertex and itself), contract edge, add it to list of outputs
 > 
 > --- 
 > 
@@ -38,10 +38,9 @@
 > look at a graph and calculate its set of automorphisms
 > partition the set of vertices under it's orbit under the isomorphisms
 > 
-> e.g. consider an automorphism that sends vertex A to vertex B, so A and B > are indistinguishable as far as the graph structure is concerned
-> so  both those contractions connecting to A/B would yield isomorphic  > graphs downstairs following contractions
+> e.g. consider an automorphism that sends vertex A to vertex B, so A and B are indistinguishable as far as the graph structure is concerned
+> so  both those contractions connecting to A/B would yield isomorphic  graphs downstairs following contractions
 > 
 > going further.......!!
 > 
 > if we do these for all four graphs/on a level...
-
