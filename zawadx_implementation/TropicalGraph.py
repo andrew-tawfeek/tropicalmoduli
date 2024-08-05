@@ -13,7 +13,7 @@ class TropicalGraph:
                    Our implementation only knows the number of marked points at a given vertex, 
                    rather than their labels.
     """
-    def __init__(self, graph: dict[str, list[str]], weights: dict[str, int], markings: dict[str, int]) -> None:
+    def __init__(self, graph, weights: dict[str, int], markings: dict[str, int]) -> None:
         """
         graph is a dict of vtx -> list of edges, specified by other vtx on edge
         Graph is not constructed properly if all edges not specified at both endpoints.
@@ -21,11 +21,20 @@ class TropicalGraph:
         keys for weights and markings should be in vertices specified by graph.
         Vertices not in weights assumed to have weight 0.
         Vertices not in markings assumed to have no markings.
+
+        Optionally, graph may also be an existing Multigraph, in which case the keys
+        for weights and markings should again be vertices in graph.
         """
-        # graph_copy = {v: list(graph[v][:]) for v in graph}
-        self.graph = nx.MultiGraph(graph, multigraph_input=False)
-        self.weights = {vtx: weights.get(vtx, 0) for vtx in self.graph.nodes}
-        self.markings = {vtx: markings.get(vtx, 0) for vtx in self.graph.nodes}
+        if isinstance(graph, dict):
+            # graph_copy = {v: list(graph[v][:]) for v in graph}
+            self.graph = nx.MultiGraph(graph, multigraph_input=False)
+            self.weights = {vtx: weights.get(vtx, 0) for vtx in self.graph.nodes}
+            self.markings = {vtx: markings.get(vtx, 0) for vtx in self.graph.nodes}
+        elif isinstance(graph, nx.MultiGraph):
+            self.graph = graph
+            self.weights = {vtx: weights.get(vtx, 0) for vtx in self.graph.nodes}
+            self.markings = {vtx: markings.get(vtx, 0) for vtx in self.graph.nodes}
+            
 
     @property
     def nodes(self) -> list[str]:
