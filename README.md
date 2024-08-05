@@ -1,7 +1,23 @@
 # Tropical Moduli Project
-This repository is dedicated to computing the cells/graphs within the moduli space of tropical curves $\mathcal{M}_{g,n}^\text{trop}$. 
+This research/coding project emerged from the University of Washington's [**Tropical Geometry Seminar**](https://www.atawfeek.com/moduli).
 
-This research project is being run by the participants of the University of Washington's [Tropical Geometry Seminar](https://www.atawfeek.com/moduli).
+This repository is dedicated to **computing the cells/graphs within the moduli space of tropical curves** $\mathcal{M}_{g,n}^\text{trop}$. 
+
+
+
+**Project Members:** [Dhruv Bhatia](https://math.washington.edu/people/dhruv-bhatia), [Zawad Chowdhury](https://math.washington.edu/people/zawad-chowdhury), [Dora Kassabova](https://math.washington.edu/people/dora-kassabova), [Patrick O'Melveny](https://pvomelveny.com/), [Andrew Tawfeek](https://www.atawfeek.com/)
+
+The initial/foundation sources that motivated this project is
+
+> Chan, Melody. "[_Combinatorics of the tropical Torelli map_](https://arxiv.org/pdf/1012.4539)." Algebra & Number Theory 6.6 (2012): 1133-1169.
+
+Here are the corresponding [slides](https://www.math.brown.edu/mchan2/torellimap_slides.pdf), the Mathematica [code](https://www.math.brown.edu/mchan2/torelli/m_g) computing $\mathcal{M}_g^\text{trop}$, and output for
+- [poset](https://www.math.brown.edu/mchan2/torelli/m_2.pdf) of $\mathcal{M}_2^\text{trop}$
+- [poset](https://www.math.brown.edu/mchan2/torelli/m_3.pdf) of $\mathcal{M}_3^\text{trop}$
+- [poset](https://www.math.brown.edu/mchan2/torelli/m_4.pdf) of $\mathcal{M}_4^\text{trop}$ 
+- [poset](https://www.math.brown.edu/mchan2/torelli/m_5.pdf) of $\mathcal{M}_5^\text{trop}$ 
+
+The aim of this project is to extend her results and develop an optimized algorithm for the computation of the poset of $\mathcal{M}_{g,n}^\text{trop}$ and related associated structures.
 
 ---
 
