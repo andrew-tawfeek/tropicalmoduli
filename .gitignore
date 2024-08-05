@@ -1,3 +1,4 @@
 *.pyc
 zawadx_implementation/scratch.ipynb
-zawadx_implementation/*.ipynb
+zawadx_implementation/*.txt
+zawadx_implementation/timing.py
