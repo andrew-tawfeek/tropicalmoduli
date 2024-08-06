@@ -1,4 +1,5 @@
 from TropicalGraph import TropicalGraph
+from ModuliSpace import *
 import networkx as nx
 import pickle as pkl
 import os
@@ -17,7 +18,7 @@ def get_valid_trees(n : int) -> list:
             continue
         out += [nx.MultiGraph(T)]
     return out
-
+ 
 def all_ways_add_edge(G) -> list:
     """Given a MultiGraph G, returns a list of all possible Multigraphs obtained by
     adding a single edge to G in such a way that the resulting graph has no vertex
@@ -74,6 +75,22 @@ def add_marked_points(G) -> TropicalGraph:
     return TropicalGraph(G, {}, markings)
 
 
+def all_contractions(G : TropicalGraph) -> list[TropicalGraph]:
+    """Given a tropical graph, returns a list of all non-isomorphic tropical graphs obtained 
+    by contracting a single edge"""
+    out = []
+    checked_vertices = []
+    for v_1 in G.graph.nodes:
+        for v_2 in G.graph.nodes:
+            if v_2 not in checked_vertices:
+                try:
+                    new_G = contract(G, v_1, v_2)
+                    pass
+
+    
+
+
+
 ### MAIN FUNCTIONS
 
 def generate_maximal_comb_types(g : int, n : int, pickle = True) -> list[TropicalGraph]:
@@ -105,6 +122,28 @@ def generate_maximal_comb_types(g : int, n : int, pickle = True) -> list[Tropica
                 pkl.dump(valid_tropical_graphs, f)
         
         return valid_tropical_graphs
+    
+
+def generate_poset_top_down(g : int, n : int) -> tuple[nx.DiGraph, dict[tuple[int], TropicalGraph]]:
+    """
+    The big one. Should generate the poset of combinatorial types in M_{g, n}^{trop} using a top
+    down approach.
+    Inputs:
+        g - genus
+        n - number of marked points
+    Outputs:
+        poset - nx.DiGraph, with vertices labeled (level, number). Edges represent poset structure
+        graph_dict - dict of (level, number) -> TropicalGraph. Maps vertex in poset to 
+                    corresponding tropical graph.
+
+    Requires there to exist stable graphs of type (g, n) - i.e. 2*g - 2 + n > 0
+"""
+    max_layer = generate_maximal_comb_types(g, n)
+    num_edges = 3 * g - 3 + n 
+    graph_dict = {(num_edges, i) : max_layer[i] for i in range(len(max_layer))}
+    poset = nx.DiGraph({(num_edges, i) : [] for i in range(len(max_layer))})
+    pass
+
     
     
 
