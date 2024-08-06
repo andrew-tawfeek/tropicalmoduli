@@ -50,10 +50,15 @@ class TropicalGraph:
         """
         Check if self is isomorphic to other as vertex-weighted marked graphs.
         """
-        for isom in nx.vf2pp_all_isomorphisms(self.graph, other.graph):
-            if (self.weights == {v: other.weights[isom[v]] for v in isom}
-            and self.markings == {v: other.markings[isom[v]] for v in isom}):
-                return True
+        if (
+            nx.faster_could_be_isomorphic(self.graph, other.graph) and 
+            set(self.weights.values()) == set(other.weights.values()) and
+            set(self.markings.values()) == set(other.markings.values())
+           ):
+            for isom in nx.vf2pp_all_isomorphisms(self.graph, other.graph):
+                if (self.weights == {v: other.weights[isom[v]] for v in isom}
+                and self.markings == {v: other.markings[isom[v]] for v in isom}):
+                    return True
         return False
 
     def is_stable_at(self, vtx: str) -> bool:

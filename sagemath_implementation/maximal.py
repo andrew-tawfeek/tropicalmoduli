@@ -6,10 +6,7 @@
 # https://oeis.org/A005967/a005967.pdf
 
 
-
-
-#### TOWER BELOW
-# missing ONLY those not having loops on leaves
+# missing those not having loops on leaves
 
 def trivalent_trees(n): #connected trees on n-many vertices with deg at most 3
     L = list(graphs.CompleteGraph(n).spanning_trees())
@@ -38,7 +35,9 @@ def looped_multi_trivalent_graphs(n): #IS MISSING GRAPHS WITH NO LOOPS
     L = trivalent_trees(n)
     return [loopy_dupe(G) for G in L]
 
-#compare trivalent_trees(6)[-4].show() with looped_multi_trivalent_graphs(6)[-4].show()
+# compare trivalent_trees(6)[-4].show() with looped_multi_trivalent_graphs(6)[-4].show()
+
+# note for above: of course empty when n is even (prove with pigeon-hole principle...)
 
 
 ####
@@ -46,12 +45,4 @@ def looped_multi_trivalent_graphs(n): #IS MISSING GRAPHS WITH NO LOOPS
 ####
 
 def unlooped_multi_trivalent_graphs(g): #takes in genus (num vert = 2g - 2)
-    return [G for G in graphs(2*g-2, size = 3*g-3) if G.is_regular(3)] #THIS IS THE LONG-RUNNING PART OF CODE. Find all cubic/trivalent graphs on a number of vertices!
-
-# clean later, when i care
-# https://mathworld.wolfram.com/CubicGraph.html
-
-
-############
-
-def lmt_graphs_strat(n): #stratifies lmt 
+    return [G for G in graphs(2*g-2, size = 3*g-3) if G.is_regular(3)] #Finds all cubic/trivalent graphs on a number of vertices! Bad.
